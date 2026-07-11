@@ -33,7 +33,7 @@ const countryFlags: { [key: string]: string } = {
   'Canada': '🇨🇦',
   'Mexico': '🇲🇽',
   'United States': '🇺🇸',
-  'Curaçao': '🇨🇼',
+  'Curacao': '🇨🇼',
   'Haiti': '🇭🇹',
   'Panama': '🇵🇦',
   // AFC
@@ -41,18 +41,18 @@ const countryFlags: { [key: string]: string } = {
   'Iran': '🇮🇷',
   'Iraq': '🇮🇶',
   'Japan': '🇯🇵',
-  'Jordan': '🇯🇴',
+  'Jorden': '🇯🇴',
   'South Korea': '🇰🇷',
   'Qatar': '🇶🇦',
   'Saudi Arabia': '🇸🇦',
   'Uzbekistan': '🇺🇿',
   // CAF
   'Algeria': '🇩🇿',
-  'Cape Verde': '🇨🇻',
-  'DR Congo': '🇨🇩',
+  'Cabo Verde': '🇨🇻',
+  'Congo DR': '🇨🇩',
   'Egypt': '🇪🇬',
   'Ghana': '🇬🇭',
-  'Ivory Coast': '🇨🇮',
+  'Cote d Ivoire': '🇨🇮',
   'Morocco': '🇲🇦',
   'Senegal': '🇸🇳',
   'South Africa': '🇿🇦',
@@ -71,7 +71,7 @@ const countryFlags: { [key: string]: string } = {
   'Belgium': '🇧🇪',
   'Bosnia and Herzegovina': '🇧🇦',
   'Croatia': '🇭🇷',
-  'Czech Republic': '🇨🇿',
+  'Czechia': '🇨🇿',
   'England': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
   'France': '🇫🇷',
   'Germany': '🇩🇪',
@@ -82,25 +82,25 @@ const countryFlags: { [key: string]: string } = {
   'Spain': '🇪🇸',
   'Sweden': '🇸🇪',
   'Switzerland': '🇨🇭',
-  'Turkey': '🇹🇷',
+  'Turkiye': '🇹🇷',
 }
 
 // List of 48 teams for the 2026 FIFA World Cup
 const worldCupCountries = [
   // CONCACAF (6)
-  'Canada', 'Mexico', 'United States', 'Curaçao', 'Haiti', 'Panama',
+  'Canada', 'Mexico', 'United States', 'Curacao', 'Haiti', 'Panama',
   // AFC (9)
-  'Australia', 'Iran', 'Iraq', 'Japan', 'Jordan', 'South Korea', 'Qatar', 'Saudi Arabia', 'Uzbekistan',
+  'Australia', 'Iran', 'Iraq', 'Japan', 'Jorden', 'South Korea', 'Qatar', 'Saudi Arabia', 'Uzbekistan',
   // CAF (10)
-  'Algeria', 'Cape Verde', 'DR Congo', 'Egypt', 'Ghana', 'Ivory Coast', 'Morocco', 'Senegal', 'South Africa', 'Tunisia',
+  'Algeria', 'Cabo Verde', 'Congo DR', 'Egypt', 'Ghana', 'Cote d Ivoire', 'Morocco', 'Senegal', 'South Africa', 'Tunisia',
   // CONMEBOL (6)
   'Argentina', 'Brazil', 'Colombia', 'Ecuador', 'Paraguay', 'Uruguay',
   // OFC (1)
   'New Zealand',
   // UEFA (16)
-  'Austria', 'Belgium', 'Bosnia and Herzegovina', 'Croatia', 'Czech Republic',
+  'Austria', 'Belgium', 'Bosnia and Herzegovina', 'Croatia', 'Czechia',
   'England', 'France', 'Germany', 'Netherlands', 'Norway', 'Portugal',
-  'Scotland', 'Spain', 'Sweden', 'Switzerland', 'Turkey'
+  'Scotland', 'Spain', 'Sweden', 'Switzerland', 'Turkiye'
 ]
 
 export default function WinnerPicker() {

@@ -12,7 +12,7 @@ const countries = [
   { code: 'CA', name: 'Canada', flag: '🇨🇦' },
   { code: 'MX', name: 'Mexico', flag: '🇲🇽' },
   { code: 'US', name: 'United States', flag: '🇺🇸' },
-  { code: 'CW', name: 'Curaçao', flag: '🇨🇼' },
+  { code: 'CW', name: 'Curacao', flag: '🇨🇼' },
   { code: 'HT', name: 'Haiti', flag: '🇭🇹' },
   { code: 'PA', name: 'Panama', flag: '🇵🇦' },
 
@@ -21,7 +21,7 @@ const countries = [
   { code: 'IR', name: 'Iran', flag: '🇮🇷' },
   { code: 'IQ', name: 'Iraq', flag: '🇮🇶' },
   { code: 'JP', name: 'Japan', flag: '🇯🇵' },
-  { code: 'JO', name: 'Jordan', flag: '🇯🇴' },
+  { code: 'JO', name: 'Jorden', flag: '🇯🇴' },
   { code: 'KR', name: 'South Korea', flag: '🇰🇷' },
   { code: 'QA', name: 'Qatar', flag: '🇶🇦' },
   { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦' },
@@ -29,11 +29,11 @@ const countries = [
 
   // CAF (10)
   { code: 'DZ', name: 'Algeria', flag: '🇩🇿' },
-  { code: 'CV', name: 'Cape Verde', flag: '🇨🇻' },
-  { code: 'CD', name: 'DR Congo', flag: '🇨🇩' },
+  { code: 'CV', name: 'Cabo Verde', flag: '🇨🇻' },
+  { code: 'CD', name: 'Congo DR', flag: '🇨🇩' },
   { code: 'EG', name: 'Egypt', flag: '🇪🇬' },
   { code: 'GH', name: 'Ghana', flag: '🇬🇭' },
-  { code: 'CI', name: 'Ivory Coast', flag: '🇨🇮' },
+  { code: 'CI', name: 'Cote d Ivoire', flag: '🇨🇮' },
   { code: 'MA', name: 'Morocco', flag: '🇲🇦' },
   { code: 'SN', name: 'Senegal', flag: '🇸🇳' },
   { code: 'ZA', name: 'South Africa', flag: '🇿🇦' },
@@ -55,7 +55,7 @@ const countries = [
   { code: 'BE', name: 'Belgium', flag: '🇧🇪' },
   { code: 'BA', name: 'Bosnia and Herzegovina', flag: '🇧🇦' },
   { code: 'HR', name: 'Croatia', flag: '🇭🇷' },
-  { code: 'CZ', name: 'Czech Republic', flag: '🇨🇿' },
+  { code: 'CZ', name: 'Czechia', flag: '🇨🇿' },
   { code: 'GB-ENG', name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
   { code: 'FR', name: 'France', flag: '🇫🇷' },
   { code: 'DE', name: 'Germany', flag: '🇩🇪' },
@@ -66,7 +66,7 @@ const countries = [
   { code: 'ES', name: 'Spain', flag: '🇪🇸' },
   { code: 'SE', name: 'Sweden', flag: '🇸🇪' },
   { code: 'CH', name: 'Switzerland', flag: '🇨🇭' },
-  { code: 'TR', name: 'Turkey', flag: '🇹🇷' },
+  { code: 'TR', name: 'Turkiye', flag: '🇹🇷' },
 ]
 
 export default function PredictPage() {
@@ -241,7 +241,6 @@ export default function PredictPage() {
             />
           </div>
 
-          {/* Department */}
           <div>
             <select
               className="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-yellow-400 transition-colors"
@@ -260,7 +259,6 @@ export default function PredictPage() {
             </select>
           </div>
 
-          {/* Year */}
           <div>
             <select
               className="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-yellow-400 transition-colors"
