@@ -10,10 +10,9 @@ import {
   ArrowLeft, 
   Users, 
   Loader2,
-  PartyPopper,
   Sparkles
 } from 'lucide-react'
-import confetti from 'canvas-confetti'
+import * as confetti from 'canvas-confetti'
 
 interface Prediction {
   id: string
@@ -116,12 +115,12 @@ export default function WinnerPicker() {
       }
 
       const particleCount = 50 * (timeLeft / duration)
-      confetti({
+      confetti.default({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
       })
-      confetti({
+      confetti.default({
         ...defaults,
         particleCount,
         origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
@@ -292,7 +291,7 @@ export default function WinnerPicker() {
               </>
             ) : showWinner ? (
               <>
-                <PartyPopper className="h-5 w-5" />
+                <Trophy className="h-5 w-5" />
                 Winner Already Chosen
               </>
             ) : (
