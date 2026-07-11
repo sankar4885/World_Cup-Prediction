@@ -16,7 +16,7 @@ export default function AdminLogin() {
     setError('')
 
     // Simple password check (you can change this)
-    const adminPassword = 'admin123' // Change this to your password
+    const adminPassword = 'cek@321' // Change this to your password
 
     if (password === adminPassword) {
       // Store login in session
