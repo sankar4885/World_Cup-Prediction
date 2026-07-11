@@ -12,7 +12,6 @@ import {
   Loader2,
   Sparkles
 } from 'lucide-react'
-import * as confetti from 'canvas-confetti'
 
 interface Prediction {
   id: string
@@ -98,34 +97,34 @@ export default function WinnerPicker() {
     }
   }
 
+  // CSS-only confetti
   const triggerConfetti = () => {
-    const duration = 5 * 1000
-    const animationEnd = Date.now() + duration
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
-
-    function randomInRange(min: number, max: number) {
-      return Math.random() * (max - min) + min
+    const emojis = ['🎉', '🎊', '⭐', '✨', '🏆', '⚽', '🎈', '💫']
+    for (let i = 0; i < 50; i++) {
+      setTimeout(() => {
+        const emoji = emojis[Math.floor(Math.random() * emojis.length)]
+        const x = Math.random() * 100
+        const size = 20 + Math.random() * 40
+        const duration = 2 + Math.random() * 2
+        const rotation = Math.random() * 720
+        
+        const el = document.createElement('div')
+        el.textContent = emoji
+        el.style.cssText = `
+          position: fixed;
+          left: ${x}%;
+          top: -10%;
+          font-size: ${size}px;
+          pointer-events: none;
+          z-index: 9999;
+          animation: confettiFall ${duration}s ease-in forwards;
+          animation-delay: ${Math.random() * 0.5}s;
+          transform: rotate(${rotation}deg);
+        `
+        document.body.appendChild(el)
+        setTimeout(() => el.remove(), (duration + 1) * 1000)
+      }, i * 30)
     }
-
-    const interval: any = setInterval(function() {
-      const timeLeft = animationEnd - Date.now()
-
-      if (timeLeft <= 0) {
-        return clearInterval(interval)
-      }
-
-      const particleCount = 50 * (timeLeft / duration)
-      confetti.default({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
-      })
-      confetti.default({
-        ...defaults,
-        particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
-      })
-    }, 250)
   }
 
   const pickWinner = async () => {
@@ -177,6 +176,7 @@ export default function WinnerPicker() {
           triggerConfetti()
           setTimeout(triggerConfetti, 500)
           setTimeout(triggerConfetti, 1000)
+          setTimeout(triggerConfetti, 1500)
         }, 300)
       }
     }, 150)

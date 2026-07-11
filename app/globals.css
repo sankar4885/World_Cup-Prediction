@@ -222,4 +222,14 @@
   html {
     @apply font-sans;
   }
+}/* Confetti animation */
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
 }
