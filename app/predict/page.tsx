@@ -6,39 +6,67 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Search, X } from 'lucide-react'
 
-// List of World Cup countries with flags
+// List of 48 teams for the 2026 FIFA World Cup with flags
 const countries = [
+  // CONCACAF (6)
+  { code: 'CA', name: 'Canada', flag: '🇨🇦' },
+  { code: 'MX', name: 'Mexico', flag: '🇲🇽' },
+  { code: 'US', name: 'United States', flag: '🇺🇸' },
+  { code: 'CW', name: 'Curaçao', flag: '🇨🇼' },
+  { code: 'HT', name: 'Haiti', flag: '🇭🇹' },
+  { code: 'PA', name: 'Panama', flag: '🇵🇦' },
+
+  // AFC (9)
+  { code: 'AU', name: 'Australia', flag: '🇦🇺' },
+  { code: 'IR', name: 'Iran', flag: '🇮🇷' },
+  { code: 'IQ', name: 'Iraq', flag: '🇮🇶' },
+  { code: 'JP', name: 'Japan', flag: '🇯🇵' },
+  { code: 'JO', name: 'Jordan', flag: '🇯🇴' },
+  { code: 'KR', name: 'South Korea', flag: '🇰🇷' },
+  { code: 'QA', name: 'Qatar', flag: '🇶🇦' },
+  { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦' },
+  { code: 'UZ', name: 'Uzbekistan', flag: '🇺🇿' },
+
+  // CAF (10)
+  { code: 'DZ', name: 'Algeria', flag: '🇩🇿' },
+  { code: 'CV', name: 'Cape Verde', flag: '🇨🇻' },
+  { code: 'CD', name: 'DR Congo', flag: '🇨🇩' },
+  { code: 'EG', name: 'Egypt', flag: '🇪🇬' },
+  { code: 'GH', name: 'Ghana', flag: '🇬🇭' },
+  { code: 'CI', name: 'Ivory Coast', flag: '🇨🇮' },
+  { code: 'MA', name: 'Morocco', flag: '🇲🇦' },
+  { code: 'SN', name: 'Senegal', flag: '🇸🇳' },
+  { code: 'ZA', name: 'South Africa', flag: '🇿🇦' },
+  { code: 'TN', name: 'Tunisia', flag: '🇹🇳' },
+
+  // CONMEBOL (6)
   { code: 'AR', name: 'Argentina', flag: '🇦🇷' },
   { code: 'BR', name: 'Brazil', flag: '🇧🇷' },
+  { code: 'CO', name: 'Colombia', flag: '🇨🇴' },
+  { code: 'EC', name: 'Ecuador', flag: '🇪🇨' },
+  { code: 'PY', name: 'Paraguay', flag: '🇵🇾' },
+  { code: 'UY', name: 'Uruguay', flag: '🇺🇾' },
+
+  // OFC (1)
+  { code: 'NZ', name: 'New Zealand', flag: '🇳🇿' },
+
+  // UEFA (16)
+  { code: 'AT', name: 'Austria', flag: '🇦🇹' },
+  { code: 'BE', name: 'Belgium', flag: '🇧🇪' },
+  { code: 'BA', name: 'Bosnia and Herzegovina', flag: '🇧🇦' },
+  { code: 'HR', name: 'Croatia', flag: '🇭🇷' },
+  { code: 'CZ', name: 'Czech Republic', flag: '🇨🇿' },
+  { code: 'GB-ENG', name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
   { code: 'FR', name: 'France', flag: '🇫🇷' },
   { code: 'DE', name: 'Germany', flag: '🇩🇪' },
-  { code: 'GB', name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-  { code: 'IT', name: 'Italy', flag: '🇮🇹' },
-  { code: 'ES', name: 'Spain', flag: '🇪🇸' },
-  { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
   { code: 'NL', name: 'Netherlands', flag: '🇳🇱' },
-  { code: 'BE', name: 'Belgium', flag: '🇧🇪' },
-  { code: 'UY', name: 'Uruguay', flag: '🇺🇾' },
-  { code: 'HR', name: 'Croatia', flag: '🇭🇷' },
-  { code: 'MX', name: 'Mexico', flag: '🇲🇽' },
-  { code: 'US', name: 'USA', flag: '🇺🇸' },
-  { code: 'SN', name: 'Senegal', flag: '🇸🇳' },
-  { code: 'MA', name: 'Morocco', flag: '🇲🇦' },
-  { code: 'NG', name: 'Nigeria', flag: '🇳🇬' },
-  { code: 'GH', name: 'Ghana', flag: '🇬🇭' },
-  { code: 'CM', name: 'Cameroon', flag: '🇨🇲' },
-  { code: 'DZ', name: 'Algeria', flag: '🇩🇿' },
-  { code: 'EG', name: 'Egypt', flag: '🇪🇬' },
-  { code: 'TN', name: 'Tunisia', flag: '🇹🇳' },
-  { code: 'ZA', name: 'South Africa', flag: '🇿🇦' },
-  { code: 'AU', name: 'Australia', flag: '🇦🇺' },
-  { code: 'JP', name: 'Japan', flag: '🇯🇵' },
-  { code: 'KR', name: 'South Korea', flag: '🇰🇷' },
-  { code: 'IR', name: 'Iran', flag: '🇮🇷' },
-  { code: 'SA', name: 'Saudi Arabia', flag: '🇸🇦' },
-  { code: 'CA', name: 'Canada', flag: '🇨🇦' },
-  { code: 'CO', name: 'Colombia', flag: '🇨🇴' },
-  { code: 'PE', name: 'Peru', flag: '🇵🇪' },
+  { code: 'NO', name: 'Norway', flag: '🇳🇴' },
+  { code: 'PT', name: 'Portugal', flag: '🇵🇹' },
+  { code: 'SCO', name: 'Scotland', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
+  { code: 'ES', name: 'Spain', flag: '🇪🇸' },
+  { code: 'SE', name: 'Sweden', flag: '🇸🇪' },
+  { code: 'CH', name: 'Switzerland', flag: '🇨🇭' },
+  { code: 'TR', name: 'Turkey', flag: '🇹🇷' },
 ]
 
 export default function PredictPage() {
@@ -213,7 +241,7 @@ export default function PredictPage() {
             />
           </div>
 
-          {/* Department - Fixed dropdown visibility with BCA added */}
+          {/* Department */}
           <div>
             <select
               className="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-yellow-400 transition-colors"
@@ -232,7 +260,7 @@ export default function PredictPage() {
             </select>
           </div>
 
-          {/* Year - Fixed dropdown visibility */}
+          {/* Year */}
           <div>
             <select
               className="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white focus:border-yellow-400 transition-colors"
