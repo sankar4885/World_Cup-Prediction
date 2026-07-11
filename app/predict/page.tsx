@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Search, X } from 'lucide-react'
+import { Search, X, User, Users } from 'lucide-react'
 
 // List of 48 teams for the 2026 FIFA World Cup with flags
 const countries = [
@@ -82,6 +82,7 @@ export default function PredictPage() {
   const [formData, setFormData] = useState({
     fullName: '',
     admissionNumber: '',
+    userType: 'Student',
     department: '',
     year: '',
     phone: '',
@@ -120,7 +121,6 @@ export default function PredictPage() {
     setSearchTerm(value)
     setFormData({...formData, predictedCountry: value})
     
-    // Check if the typed value matches a country
     const match = countries.find(c => 
       c.name.toLowerCase() === value.toLowerCase() ||
       c.name.toLowerCase().includes(value.toLowerCase())
@@ -156,10 +156,16 @@ export default function PredictPage() {
     
     console.log('Form submitted!')
     
-    // Validate required fields
-    if (!formData.fullName || !formData.admissionNumber || !formData.department || 
+    // Validate required fields based on user type
+    if (!formData.fullName || !formData.department || 
         !formData.year || !formData.predictedCountry || !formData.termsAccepted) {
       setError('Please fill in all required fields and accept the terms.')
+      return
+    }
+
+    // For students, admission number is required
+    if (formData.userType === 'Student' && !formData.admissionNumber) {
+      setError('Admission number is required for students.')
       return
     }
 
@@ -177,7 +183,8 @@ export default function PredictPage() {
         .insert({
           prediction_id: predId,
           full_name: formData.fullName,
-          admission_number: formData.admissionNumber,
+          admission_number: formData.admissionNumber || null,
+          user_type: formData.userType,
           department: formData.department,
           year: formData.year,
           phone: formData.phone || null,
@@ -239,16 +246,59 @@ export default function PredictPage() {
             />
           </div>
 
+          {/* User Type - Student or Faculty */}
           <div>
-            <input
-              type="text"
-              placeholder="Admission Number *"
-              className="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:border-yellow-400 transition-colors"
-              value={formData.admissionNumber}
-              onChange={(e) => setFormData({...formData, admissionNumber: e.target.value})}
-              required
-            />
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              I am a... *
+            </label>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setFormData({...formData, userType: 'Student'})}
+                className={`p-3 rounded-lg border-2 transition-all flex items-center justify-center gap-2 ${
+                  formData.userType === 'Student'
+                    ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
+                    : 'border-white/10 bg-white/5 text-gray-400 hover:border-white/20'
+                }`}
+              >
+                <Users className="h-5 w-5" />
+                Student
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({...formData, userType: 'Faculty'})}
+                className={`p-3 rounded-lg border-2 transition-all flex items-center justify-center gap-2 ${
+                  formData.userType === 'Faculty'
+                    ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
+                    : 'border-white/10 bg-white/5 text-gray-400 hover:border-white/20'
+                }`}
+              >
+                <User className="h-5 w-5" />
+                Faculty
+              </button>
+            </div>
           </div>
+
+          {/* Admission Number - Only for Students */}
+          {formData.userType === 'Student' && (
+            <div>
+              <input
+                type="text"
+                placeholder="Admission Number *"
+                className="w-full p-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder:text-gray-500 focus:border-yellow-400 transition-colors"
+                value={formData.admissionNumber}
+                onChange={(e) => setFormData({...formData, admissionNumber: e.target.value})}
+                required
+              />
+            </div>
+          )}
+
+          {/* For Faculty - Show a note instead of admission number */}
+          {formData.userType === 'Faculty' && (
+            <div className="p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg text-purple-300 text-sm">
+              <p>📋 Faculty members - please fill in your details below</p>
+            </div>
+          )}
 
           <div>
             <select
@@ -277,10 +327,16 @@ export default function PredictPage() {
               style={{ color: 'white' }}
             >
               <option value="" style={{ color: '#666', backgroundColor: '#1a1a1a' }}>Select Year *</option>
-              <option value="1st Year" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>1st Year</option>
-              <option value="2nd Year" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>2nd Year</option>
-              <option value="3rd Year" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>3rd Year</option>
-              <option value="4th Year" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>4th Year</option>
+              {formData.userType === 'Student' ? (
+                <>
+                  <option value="1st Year" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>1st Year</option>
+                  <option value="2nd Year" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>2nd Year</option>
+                  <option value="3rd Year" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>3rd Year</option>
+                  <option value="4th Year" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>4th Year</option>
+                </>
+              ) : (
+                <option value="Faculty" style={{ color: 'white', backgroundColor: '#1a1a1a' }}>Faculty</option>
+              )}
             </select>
           </div>
 
