@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Trophy, Users, Flag, Zap, Shield } from 'lucide-react'
+import CountdownTimer from '@/components/CountdownTimer'
 
 export default function Home() {
   return (
@@ -23,6 +24,11 @@ export default function Home() {
           <p className="text-xl text-gray-300 mb-8">
             Join students in predicting who will lift the trophy!
           </p>
+
+          {/* Countdown Timer */}
+          <div className="mb-10">
+            <CountdownTimer />
+          </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link 
@@ -47,7 +53,7 @@ export default function Home() {
             </div>
             <div className="bg-white/5 rounded-xl p-6 border border-white/5 hover:border-yellow-400/30 transition-all">
               <Flag className="h-8 w-8 text-yellow-400 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-white">32</div>
+              <div className="text-2xl font-bold text-white">48</div>
               <div className="text-sm text-gray-400">Countries</div>
             </div>
             <div className="bg-white/5 rounded-xl p-6 border border-white/5 hover:border-yellow-400/30 transition-all">

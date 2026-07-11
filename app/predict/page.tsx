@@ -145,6 +145,15 @@ export default function PredictPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    // Check if submissions are still open
+    const targetDate = new Date('2026-07-13T18:00:00')
+    const now = new Date()
+    if (now > targetDate) {
+      setError('Submissions are now closed. The prediction period has ended.')
+      return
+    }
+    
     console.log('Form submitted!')
     
     // Validate required fields
