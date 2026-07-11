@@ -13,12 +13,18 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
+  Legend,
   ResponsiveContainer 
 } from 'recharts'
-import { Users, Flag, Trophy, Clock, ArrowLeft } from 'lucide-react'
+import { Users, Flag, Trophy, Clock } from 'lucide-react'
 
 interface Prediction {
   id: string
+  prediction_id: string
+  full_name: string
+  admission_number: string
+  department: string
+  year: string
   predicted_country: string
   created_at: string
 }
@@ -47,10 +53,10 @@ const countryFlags: { [key: string]: string } = {
 
 const COLORS = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE']
 
-export default function PublicDashboard() {
+export default function DashboardPage() {
   const [predictions, setPredictions] = useState<Prediction[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const [totalPredictions, setTotalPredictions] = useState(0)
 
   useEffect(() => {
     fetchPredictions()
@@ -58,22 +64,20 @@ export default function PublicDashboard() {
 
   const fetchPredictions = async () => {
     try {
-      setLoading(true)
       const { data, error } = await supabase
         .from('predictions')
-        .select('id, predicted_country, created_at')
+        .select('*')
         .order('created_at', { ascending: false })
 
       if (error) {
         console.error('Error fetching predictions:', error)
-        setError('Failed to load predictions')
         return
       }
 
       setPredictions(data || [])
+      setTotalPredictions(data?.length || 0)
     } catch (err) {
       console.error('Error:', err)
-      setError('Something went wrong')
     } finally {
       setLoading(false)
     }
@@ -91,9 +95,24 @@ export default function PublicDashboard() {
       .sort((a, b) => b.value - a.value)
   }
 
+  // Get top countries for bar chart
+  const getTopCountries = () => {
+    return getVotesPerCountry().slice(0, 10)
+  }
+
+  // Get recent predictions (without personal info)
+  const getRecentPredictions = () => {
+    return predictions.slice(0, 5).map(p => ({
+      id: p.id,
+      country: p.predicted_country,
+      flag: countryFlags[p.predicted_country] || '🏆',
+      time: new Date(p.created_at).toLocaleDateString()
+    }))
+  }
+
   const votesData = getVotesPerCountry()
-  const topCountries = votesData.slice(0, 10)
-  const totalPredictions = predictions.length
+  const topCountries = getTopCountries()
+  const recentPredictions = getRecentPredictions()
 
   if (loading) {
     return (
@@ -114,9 +133,8 @@ export default function PublicDashboard() {
             <h1 className="text-3xl font-bold text-yellow-400">🏆 World Cup Dashboard</h1>
             <p className="text-gray-400 mt-1">Live prediction statistics</p>
           </div>
-          <Link href="/" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
+          <Link href="/" className="text-gray-400 hover:text-white transition-colors">
+            ← Back to Home
           </Link>
         </div>
 
@@ -166,7 +184,7 @@ export default function PublicDashboard() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, percent }) => `${name} (${(percent * 100).toFixed(1)}%)`}
+                      label={({ name, percent }) => `${name} (${((percent || 0) * 100).toFixed(1)}%)`}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="value"
@@ -215,17 +233,17 @@ export default function PublicDashboard() {
         {/* Recent Predictions */}
         <div className="bg-white/5 rounded-xl p-6 border border-white/10">
           <h2 className="text-lg font-bold text-white mb-4">Recent Predictions</h2>
-          {predictions.length === 0 ? (
+          {recentPredictions.length === 0 ? (
             <p className="text-gray-400 text-center py-8">No predictions yet. Be the first!</p>
           ) : (
             <div className="space-y-3">
-              {predictions.slice(0, 5).map((p) => (
+              {recentPredictions.map((p) => (
                 <div key={p.id} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl">{countryFlags[p.predicted_country] || '🏆'}</span>
-                    <span className="text-white">{p.predicted_country}</span>
+                    <span className="text-2xl">{p.flag}</span>
+                    <span className="text-white">{p.country}</span>
                   </div>
-                  <span className="text-sm text-gray-400">{new Date(p.created_at).toLocaleDateString()}</span>
+                  <span className="text-sm text-gray-400">{p.time}</span>
                 </div>
               ))}
             </div>

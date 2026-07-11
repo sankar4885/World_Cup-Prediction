@@ -1,32 +1,39 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
 import { Check } from 'lucide-react'
 
-export default function SuccessPage() {
+function SuccessContent() {
   const [prediction, setPrediction] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
 
   useEffect(() => {
-    if (id) {
-      supabase
-        .from('predictions')
-        .select('*')
-        .eq('prediction_id', id)
-        .single()
-        .then(({ data }) => {
+    const fetchPrediction = async () => {
+      if (id) {
+        try {
+          const { data } = await supabase
+            .from('predictions')
+            .select('*')
+            .eq('prediction_id', id)
+            .single()
+          
           if (data) setPrediction(data)
+        } catch (error) {
+          console.error('Error fetching prediction:', error)
+        } finally {
           setLoading(false)
-        })
-        .catch(() => setLoading(false))
-    } else {
-      setLoading(false)
+        }
+      } else {
+        setLoading(false)
+      }
     }
+
+    fetchPrediction()
   }, [id])
 
   if (loading) {
@@ -106,5 +113,20 @@ export default function SuccessPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="text-white text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    }>
+      <SuccessContent />
+    </Suspense>
   )
 }
